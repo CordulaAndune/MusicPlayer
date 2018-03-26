@@ -1,11 +1,10 @@
 package de.cordulagloge.android.musicplayer;
 
+import android.content.Context;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.media.Image;
 import android.media.MediaMetadataRetriever;
-import android.provider.MediaStore;
 
 /**
  * Song object with title, album, artist and filepath
@@ -16,37 +15,27 @@ import android.provider.MediaStore;
  */
 
 public class Song {
-    private String mTitle, mAlbum, mArtist, mFilePath;
+    private String mTitle, mAlbum, mArtist, mFilePath, mDuration, mId;
     private Bitmap mAlbumImage;
 
-    public Song(String filePath) {
+    public Song(Cursor cursor, Context context) {
+        mTitle = cursor.getString(0);
+        mArtist = cursor.getString(1);
+        mAlbum = cursor.getString(2);
+        mDuration = cursor.getString(3);
+        mFilePath = cursor.getString(4);
+        mId = cursor.getString(5);
+
         MediaMetadataRetriever metaDataRetriever = new MediaMetadataRetriever();
-        metaDataRetriever.setDataSource(filePath);
-        try {
-
-            mTitle = metaDataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE);
-            mArtist = metaDataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ARTIST);
-            mAlbum = metaDataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ALBUM);
-            mFilePath = filePath;
-            if (mTitle == null) {
-                mTitle = MediaStore.Audio.Media.TITLE;
-                mArtist = MediaStore.Audio.Media.ARTIST;
-                mAlbum = MediaStore.Audio.Media.ALBUM;
-            }
-        } catch (Exception e) {
-
-            mTitle = "Unknown Title";
-            mAlbum = "Unknown Album";
-            mArtist = "Unknown Artist";
-            mFilePath = filePath;
-        }
+        metaDataRetriever.setDataSource(mFilePath);
 
         try {
             byte[] image = metaDataRetriever.getEmbeddedPicture();
             mAlbumImage = BitmapFactory.decodeByteArray(image, 0, image.length);
         } catch (Exception e) {
-            mAlbumImage = null;
+            mAlbumImage = BitmapFactory.decodeResource(context.getResources(),R.drawable.default_album_image);
         }
+
     }
 
     public String getTitle() {
@@ -59,6 +48,14 @@ public class Song {
 
     public String getArtist() {
         return mArtist;
+    }
+
+    public String getDuration() {
+        return mDuration;
+    }
+
+    public String getId() {
+        return mId;
     }
 
     public Bitmap getAlbumImage() {
