@@ -4,11 +4,11 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="@dimen/outer_padding"
         tools:context="de.cordulagloge.android.musicplayer.MainActivity">
 
         <ListView
             android:id="@+id/musicList"
+            android:paddingTop="@dimen/top_padding"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </LinearLayout>

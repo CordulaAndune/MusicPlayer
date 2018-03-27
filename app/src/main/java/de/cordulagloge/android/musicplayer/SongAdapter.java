@@ -1,7 +1,6 @@
 package de.cordulagloge.android.musicplayer;
 
 import android.content.Context;
-import android.databinding.DataBindingUtil;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -38,7 +37,7 @@ public class SongAdapter extends ArrayAdapter<Song> {
         titleText.setText(currentSong.getTitle());
 
         TextView albumText = convertView.findViewById(R.id.album_textview);
-        albumText.setText(currentSong.getAlbum() + " - " + currentSong.getArtist());
+        albumText.setText(currentSong.getArtist() + " - " + currentSong.getAlbum());
 
         return convertView;
     }

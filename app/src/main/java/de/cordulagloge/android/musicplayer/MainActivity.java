@@ -1,10 +1,12 @@
 package de.cordulagloge.android.musicplayer;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.ListView;
+import android.view.View;
+import android.widget.AdapterView;
 
 import java.util.ArrayList;
 
@@ -29,9 +31,16 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-        ListView musicList = findViewById(R.id.musicList);
+
         SongAdapter audioFileAdapter = new SongAdapter(this, songList);
-        musicList.setAdapter(audioFileAdapter);
+        mainBinding.musicList.setAdapter(audioFileAdapter);
+        mainBinding.musicList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent playIntent = new Intent(MainActivity.this, PlayActivity.class);
+                startActivity(playIntent);
+            }
+        });
     }
 
 
