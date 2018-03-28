@@ -30,7 +30,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-
         SongAdapter audioFileAdapter = new SongAdapter(this, songList);
         mainBinding.musicList.setAdapter(audioFileAdapter);
         mainBinding.musicList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -45,7 +44,4 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
-
-
 }

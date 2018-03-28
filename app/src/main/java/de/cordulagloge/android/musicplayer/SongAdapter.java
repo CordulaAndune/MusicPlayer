@@ -31,7 +31,7 @@ public class SongAdapter extends ArrayAdapter<Song> {
         }
 
         ImageView albumImage = convertView.findViewById(R.id.album_image);
-        albumImage.setImageBitmap(currentSong.getAlbumImage());
+        albumImage.setImageBitmap(currentSong.getAlbumImage(getContext()));
 
         TextView titleText = convertView.findViewById(R.id.title_textview);
         titleText.setText(currentSong.getTitle());

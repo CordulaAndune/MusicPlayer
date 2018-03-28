@@ -28,23 +28,10 @@ public class Song implements Parcelable {
         this.mDuration = cursor.getString(3);
         this.mFilePath = cursor.getString(4);
         this.mId = cursor.getString(5);
-
-        MediaMetadataRetriever metaDataRetriever = new MediaMetadataRetriever();
-        metaDataRetriever.setDataSource(mFilePath);
-
-        try {
-            this.mAlbumByte = metaDataRetriever.getEmbeddedPicture();
-            this.mAlbumImage = BitmapFactory.decodeByteArray(mAlbumByte, 0, mAlbumByte.length);
-        } catch (Exception e) {
-            this.mAlbumByte = null;
-            this.mAlbumImage = BitmapFactory.decodeResource(context.getResources(), R.drawable.default_album_image);
-        }
-
     }
 
     public Song(Parcel read) {
         String[] allSongData = new String[6];
-
         read.readStringArray(allSongData);
         this.mTitle = allSongData[0];
         this.mAlbum = allSongData[1];
@@ -52,12 +39,6 @@ public class Song implements Parcelable {
         this.mFilePath = allSongData[3];
         this.mDuration = allSongData[4];
         this.mId = allSongData[5];
-        /* try {
-            mAlbumByte = read.createByteArray();
-            mAlbumImage = BitmapFactory.decodeByteArray(mAlbumByte, 0, mAlbumByte.length);
-        } catch (Exception e) {
-            //mAlbumImage = BitmapFactory.decodeResource(.getResources(), R.drawable.default_album_image);
-        }*/
     }
 
     public String getTitle() {
@@ -80,7 +61,16 @@ public class Song implements Parcelable {
         return mId;
     }
 
-    public Bitmap getAlbumImage() {
+    public Bitmap getAlbumImage(Context context) {
+        MediaMetadataRetriever metaDataRetriever = new MediaMetadataRetriever();
+        metaDataRetriever.setDataSource(mFilePath);
+        try {
+            this.mAlbumByte = metaDataRetriever.getEmbeddedPicture();
+            this.mAlbumImage = BitmapFactory.decodeByteArray(mAlbumByte, 0, mAlbumByte.length);
+        } catch (Exception e) {
+            this.mAlbumByte = null;
+            this.mAlbumImage = BitmapFactory.decodeResource(context.getResources(), R.drawable.default_album_image);
+        }
         return mAlbumImage;
     }
 
@@ -107,8 +97,7 @@ public class Song implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel arg0, int arg1) {
-        arg0.writeStringArray(new String[] {this.mTitle,
+        arg0.writeStringArray(new String[]{this.mTitle,
                 this.mAlbum, this.mArtist, this.mFilePath, this.mDuration, this.mId});
-       // arg0.writeByteArray(mAlbumByte);
     }
 }

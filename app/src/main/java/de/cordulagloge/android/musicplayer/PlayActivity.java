@@ -23,5 +23,6 @@ public class PlayActivity extends AppCompatActivity {
 
         playBinding.titleTextview.setText(currentSong.getTitle());
         playBinding.albumTextview.setText(currentSong.getAlbum());
+        playBinding.albumImageview.setImageBitmap(currentSong.getAlbumImage(this));
     }
 }
