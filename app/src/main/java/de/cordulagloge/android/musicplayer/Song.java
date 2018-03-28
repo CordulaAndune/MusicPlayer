@@ -5,6 +5,8 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaMetadataRetriever;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 /**
  * Song object with title, album, artist and filepath
@@ -14,28 +16,48 @@ import android.media.MediaMetadataRetriever;
  * and http://www.jayrambhia.com/blog/android-audio-cursor
  */
 
-public class Song {
+public class Song implements Parcelable {
     private String mTitle, mAlbum, mArtist, mFilePath, mDuration, mId;
+    private byte[] mAlbumByte;
     private Bitmap mAlbumImage;
 
     public Song(Cursor cursor, Context context) {
-        mTitle = cursor.getString(0);
-        mArtist = cursor.getString(1);
-        mAlbum = cursor.getString(2);
-        mDuration = cursor.getString(3);
-        mFilePath = cursor.getString(4);
-        mId = cursor.getString(5);
+        this.mTitle = cursor.getString(0);
+        this.mArtist = cursor.getString(1);
+        this.mAlbum = cursor.getString(2);
+        this.mDuration = cursor.getString(3);
+        this.mFilePath = cursor.getString(4);
+        this.mId = cursor.getString(5);
 
         MediaMetadataRetriever metaDataRetriever = new MediaMetadataRetriever();
         metaDataRetriever.setDataSource(mFilePath);
 
         try {
-            byte[] image = metaDataRetriever.getEmbeddedPicture();
-            mAlbumImage = BitmapFactory.decodeByteArray(image, 0, image.length);
+            this.mAlbumByte = metaDataRetriever.getEmbeddedPicture();
+            this.mAlbumImage = BitmapFactory.decodeByteArray(mAlbumByte, 0, mAlbumByte.length);
         } catch (Exception e) {
-            mAlbumImage = BitmapFactory.decodeResource(context.getResources(),R.drawable.default_album_image);
+            this.mAlbumByte = null;
+            this.mAlbumImage = BitmapFactory.decodeResource(context.getResources(), R.drawable.default_album_image);
         }
 
+    }
+
+    public Song(Parcel read) {
+        String[] allSongData = new String[6];
+
+        read.readStringArray(allSongData);
+        this.mTitle = allSongData[0];
+        this.mAlbum = allSongData[1];
+        this.mArtist = allSongData[2];
+        this.mFilePath = allSongData[3];
+        this.mDuration = allSongData[4];
+        this.mId = allSongData[5];
+        /* try {
+            mAlbumByte = read.createByteArray();
+            mAlbumImage = BitmapFactory.decodeByteArray(mAlbumByte, 0, mAlbumByte.length);
+        } catch (Exception e) {
+            //mAlbumImage = BitmapFactory.decodeResource(.getResources(), R.drawable.default_album_image);
+        }*/
     }
 
     public String getTitle() {
@@ -60,5 +82,33 @@ public class Song {
 
     public Bitmap getAlbumImage() {
         return mAlbumImage;
+    }
+
+    public byte[] getAlbumByte() {
+        return mAlbumByte;
+    }
+
+    public static final Parcelable.Creator<Song> CREATOR = new Parcelable.Creator<Song>() {
+        @Override
+        public Song createFromParcel(Parcel source) {
+            return new Song(source);
+        }
+
+        @Override
+        public Song[] newArray(int size) {
+            return new Song[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel arg0, int arg1) {
+        arg0.writeStringArray(new String[] {this.mTitle,
+                this.mAlbum, this.mArtist, this.mFilePath, this.mDuration, this.mId});
+       // arg0.writeByteArray(mAlbumByte);
     }
 }

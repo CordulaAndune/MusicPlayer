@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         ActivityMainBinding mainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
-        ArrayList<Song> songList = new ArrayList<>();
+        final ArrayList<Song> songList = new ArrayList<>();
 
         // Get Cursor
         Cursor cursor = SongManager.populateQueries(this);
@@ -31,13 +31,16 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-
         SongAdapter audioFileAdapter = new SongAdapter(this, songList);
         mainBinding.musicList.setAdapter(audioFileAdapter);
         mainBinding.musicList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                MyParcelable songObject = new MyParcelable();
+                songObject.setArrList(songList);
+                songObject.setMyInt(i);
                 Intent playIntent = new Intent(MainActivity.this, PlayActivity.class);
+                playIntent.putExtra("parcel",songObject);
                 startActivity(playIntent);
             }
         });
