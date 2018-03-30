@@ -18,8 +18,6 @@ import android.os.Parcelable;
 
 public class Song implements Parcelable {
     private String mTitle, mAlbum, mArtist, mFilePath, mDuration, mId;
-    private byte[] mAlbumByte;
-    private Bitmap mAlbumImage;
 
     public Song(Cursor cursor, Context context) {
         this.mTitle = cursor.getString(0);
@@ -63,19 +61,13 @@ public class Song implements Parcelable {
 
     public Bitmap getAlbumImage(Context context) {
         MediaMetadataRetriever metaDataRetriever = new MediaMetadataRetriever();
-        metaDataRetriever.setDataSource(mFilePath);
         try {
-            this.mAlbumByte = metaDataRetriever.getEmbeddedPicture();
-            this.mAlbumImage = BitmapFactory.decodeByteArray(mAlbumByte, 0, mAlbumByte.length);
+            metaDataRetriever.setDataSource(mFilePath);
+            byte[] albumByte = metaDataRetriever.getEmbeddedPicture();
+            return BitmapFactory.decodeByteArray(albumByte, 0, albumByte.length);
         } catch (Exception e) {
-            this.mAlbumByte = null;
-            this.mAlbumImage = BitmapFactory.decodeResource(context.getResources(), R.drawable.default_album_image);
+            return BitmapFactory.decodeResource(context.getResources(), R.drawable.default_album_image);
         }
-        return mAlbumImage;
-    }
-
-    public byte[] getAlbumByte() {
-        return mAlbumByte;
     }
 
     public static final Parcelable.Creator<Song> CREATOR = new Parcelable.Creator<Song>() {

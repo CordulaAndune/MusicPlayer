@@ -1,34 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
-
     <data>
-
         <variable
             name="song"
             type="de.cordulagloge.android.musicplayer.Song" />
     </data>
-
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:padding="@dimen/outer_padding"
         android:orientation="vertical"
+        android:background="@drawable/background"
         tools:context="de.cordulagloge.android.musicplayer.PlayActivity">
 
         <TextView
+            style="@style/Playing.Title"
             android:id="@+id/title_textview"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:ellipsize="marquee"
+            tools:text="Title"/>
 
         <TextView
+            style="@style/Playing.Album"
             android:id="@+id/album_textview"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            tools:text="Album"/>
 
         <ImageView
             android:id="@+id/album_imageview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:adjustViewBounds="true"
+            tools:src="@drawable/default_album_image" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageButton
+                android:id="@+id/play_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_play_arrow_black_24dp"
+                android:background="@drawable/button_background"
+                android:padding="@dimen/top_padding"/>
+
+            <SeekBar
+                android:id="@+id/seekbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:thumb="@drawable/seekbar_thumb"/>
+        </LinearLayout>
 
     </LinearLayout>
 </layout>
