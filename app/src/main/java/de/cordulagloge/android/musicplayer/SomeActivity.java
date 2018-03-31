@@ -8,7 +8,7 @@ import android.os.Bundle;
 import java.util.List;
 
 public class SomeActivity extends Activity {
-
+// TODO: Delete if not needed
     // Names for the arguments we pass to the
     // activity when we create it
     private final static String ARG_STRING = "ARG_STRING";

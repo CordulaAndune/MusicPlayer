@@ -55,6 +55,10 @@ public class Song implements Parcelable {
         return mDuration;
     }
 
+    public String getFilePath() {
+        return mFilePath;
+    }
+
     public String getId() {
         return mId;
     }
