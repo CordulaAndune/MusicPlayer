@@ -19,7 +19,7 @@ public class PlayActivity extends AppCompatActivity {
         MyParcelable songObject = b.getParcelable("parcel");
         List<Song> songArrayList = songObject.getArrList();
         int currentSongNumber = songObject.getMyInt();
-        Song currentSong = songArrayList.get(currentSongNumber);
+        Song currentSong = songArrayList.get(0);
 
         playBinding.titleTextview.setText(currentSong.getTitle());
         playBinding.albumTextview.setText(currentSong.getAlbum());
