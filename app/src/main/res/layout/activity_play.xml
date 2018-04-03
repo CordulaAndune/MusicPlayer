@@ -40,9 +40,25 @@
             android:adjustViewBounds="true"
             tools:src="@drawable/default_album_image" />
 
+        <SeekBar
+            android:id="@+id/seekbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:thumb="@drawable/seekbar_thumb"/>
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <ImageButton
+                android:id="@+id/backward_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_fast_rewind_black_24dp"
+                android:background="@drawable/button_background"
+                android:padding="@dimen/top_padding"/>
 
             <ImageButton
                 android:id="@+id/play_button"
@@ -50,14 +66,17 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_play_arrow_black_24dp"
                 android:background="@drawable/button_background"
+                android:padding="@dimen/top_padding"
+                android:layout_margin="@dimen/top_padding"/>
+
+            <ImageButton
+                android:id="@+id/forward_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_fast_forward_black_24dp"
+                android:background="@drawable/button_background"
                 android:padding="@dimen/top_padding"/>
 
-            <SeekBar
-                android:id="@+id/seekbar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:thumb="@drawable/seekbar_thumb"/>
         </LinearLayout>
 
     </LinearLayout>
