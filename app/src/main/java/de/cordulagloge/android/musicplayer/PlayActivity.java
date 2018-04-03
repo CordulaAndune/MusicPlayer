@@ -82,19 +82,25 @@ public class PlayActivity extends AppCompatActivity {
             }
         });
 
-        playBinding.forwardButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                setNextSong(false);
-            }
-        });
+        if (numberOfSongs < 2){
+            playBinding.forwardButton.setEnabled(false);
+            playBinding.backwardButton.setEnabled(false);
+        }
+        else {
+            playBinding.forwardButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    setNextSong(false);
+                }
+            });
 
-        playBinding.backwardButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                setPreviousSong();
-            }
-        });
+            playBinding.backwardButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    setPreviousSong();
+                }
+            });
+        }
 
         // set position in song if seekbar is changed
         playBinding.seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
