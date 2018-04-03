@@ -133,6 +133,9 @@ public class PlayActivity extends AppCompatActivity {
             songNumber = 0;
             Song currentSong = songArrayList.get(songNumber);
             setMediaPlayer(currentSong);
+            if(isCompletedSong){
+                playBinding.playButton.setImageResource(R.drawable.ic_play_arrow_black_24dp);
+            }
         }
     }
 
