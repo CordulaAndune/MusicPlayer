@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 MyParcelable songObject = new MyParcelable();
-                songObject.setArrList(songList.subList(i,i+1));
+                songObject.setArrList(songList.subList(1,4));
                 songObject.setMyInt(i);
                 Intent playIntent = new Intent(MainActivity.this, PlayActivity.class);
                 playIntent.putExtra("parcel",songObject);

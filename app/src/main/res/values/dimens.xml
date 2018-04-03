@@ -5,4 +5,5 @@
 
     <dimen name="list_textsize">16sp</dimen>
     <dimen name="title_textsize">24sp</dimen>
+    <dimen name="duration_textsize">12sp</dimen>
 </resources>

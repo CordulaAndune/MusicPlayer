@@ -44,4 +44,9 @@
         <item name="android:textSize">@dimen/list_textsize</item>
     </style>
 
+    <style name="Playing.Duration">
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textSize">@dimen/duration_textsize</item>
+    </style>
+
 </resources>
