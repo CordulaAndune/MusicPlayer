@@ -43,6 +43,7 @@ public class PlayActivity extends AppCompatActivity {
 
         songNumber = 0;
 
+        // get intent extra from last activity with song information
         Bundle b = getIntent().getExtras();
         MyParcelable songObject = null;
         if (b != null) {
@@ -77,23 +78,21 @@ public class PlayActivity extends AppCompatActivity {
         songPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mediaPlayer) {
-                boolean isCompleted = true;
-                    setNextSong(isCompleted);
+                setNextSong(true);
             }
         });
 
-        if (numberOfSongs < 2){
+        // set rewind and forward button - disable if only one song is in songArraylist
+        if (numberOfSongs < 2) {
             playBinding.forwardButton.setEnabled(false);
             playBinding.backwardButton.setEnabled(false);
-        }
-        else {
+        } else {
             playBinding.forwardButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     setNextSong(false);
                 }
             });
-
             playBinding.backwardButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -106,19 +105,21 @@ public class PlayActivity extends AppCompatActivity {
         playBinding.seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int seekbarPosition, boolean isInput) {
-                if (songPlayer != null && isInput){
+                if (songPlayer != null && isInput) {
                     songPlayer.seekTo(seekbarPosition);
                 }
             }
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {}
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {}
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
         });
     }
 
     @Override
-    public void onDestroy(){
+    public void onDestroy() {
         super.onDestroy();
         songPlayer.stop();
     }
@@ -126,20 +127,19 @@ public class PlayActivity extends AppCompatActivity {
     /**
      * set next song of playlist or stop playing and set mediaplayer to first song of playlist
      */
-    public void setNextSong(boolean isCompletedSong){
-        if (songNumber < numberOfSongs-1) {
+    public void setNextSong(boolean isCompletedSong) {
+        if (songNumber < numberOfSongs - 1) {
             songNumber++;
             Song currentSong = songArrayList.get(songNumber);
             setMediaPlayer(currentSong);
-            if(isCompletedSong){
+            if (isCompletedSong) {
                 songPlayer.start();
             }
-        }
-        else {
+        } else {
             songNumber = 0;
             Song currentSong = songArrayList.get(songNumber);
             setMediaPlayer(currentSong);
-            if(isCompletedSong){
+            if (isCompletedSong) {
                 playBinding.playButton.setImageResource(R.drawable.ic_play_arrow_black_24dp);
             }
         }
@@ -148,11 +148,10 @@ public class PlayActivity extends AppCompatActivity {
     /**
      * set previous song of playlist when song is played for less than 20 sec or start song again, when played longer
      */
-    public void setPreviousSong(){
+    public void setPreviousSong() {
         if (songPlayer.getCurrentPosition() > 20000) {
             songPlayer.seekTo(0);
-        }
-        else {
+        } else {
             if (songNumber > 0) {
                 songNumber--;
                 Song currentSong = songArrayList.get(songNumber);
@@ -167,9 +166,10 @@ public class PlayActivity extends AppCompatActivity {
 
     /**
      * prepare mediaplayer to play current song
+     *
      * @param currentSong Song object with data of the current song
      */
-    public void setMediaPlayer(Song currentSong){
+    public void setMediaPlayer(Song currentSong) {
         boolean hasPlayed = songPlayer.isPlaying();
         try {
             // update mediaplayer
@@ -186,19 +186,28 @@ public class PlayActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        if (hasPlayed){
+        if (hasPlayed) {
             songPlayer.start();
         }
     }
 
-    public void setDescription(Song currentSong){
+    /**
+     * Set Title, album, album art and song duration to be displayed
+     * @param currentSong song object of the current / playing song
+     */
+    public void setDescription(Song currentSong) {
         playBinding.titleTextview.setText(currentSong.getTitle());
         playBinding.albumTextview.setText(currentSong.getAlbum());
         playBinding.albumImageview.setImageBitmap(currentSong.getAlbumImage(this));
         playBinding.songDuration.setText(convertMilliSecToSec(songPlayer.getDuration()));
     }
 
-    public String convertMilliSecToSec(long time){
+    /**
+     * Convert Milliseconds (long) to timeformat hh:mm:ss
+     * @param time  long millisec
+     * @return converted time in format hh:mm:ss
+     */
+    public String convertMilliSecToSec(long time) {
         return String.format("%02d:%02d:%02d",
                 TimeUnit.MILLISECONDS.toHours(time),
                 TimeUnit.MILLISECONDS.toMinutes(time) -

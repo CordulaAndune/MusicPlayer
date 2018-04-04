@@ -29,25 +29,56 @@ public class MainActivity extends AppCompatActivity {
 
         // Get Cursor
         Cursor cursor = SongManager.populateQueries(this);
+        ArrayList<Album> albumList = new ArrayList<>();
         if (cursor != null) {
             cursor.moveToFirst();
             while (cursor.moveToNext()) {
-                songList.add(new Song(cursor,this));
+                Song newSong = new Song(cursor, this);
+                String currentAlbum = newSong.getAlbum();
+                songList.add(newSong);
+                int indexOfAlbum = containsAlbum(albumList, currentAlbum, newSong.getFilePath(), newSong.getArtist());
+                if (0 <= indexOfAlbum) {
+                    albumList.get(indexOfAlbum).addSong(songList.indexOf(newSong));
+                } else {
+                    Album newAlbum = new Album(currentAlbum, newSong.getArtist(),
+                            songList.indexOf(newSong), newSong.getFilePath());
+                    albumList.add(newAlbum);
+                }
             }
         }
 
-        SongAdapter audioFileAdapter = new SongAdapter(this, songList);
-        mainBinding.musicList.setAdapter(audioFileAdapter);
+        AlbumAdapter albumAdapter = new AlbumAdapter(this, albumList);
+        mainBinding.musicList.setAdapter(albumAdapter);
         mainBinding.musicList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 MyParcelable songObject = new MyParcelable();
-                songObject.setArrList(songList.subList(i,i+1));
+                songObject.setArrList(songList.subList(i, i + 1));
                 songObject.setMyInt(i);
                 Intent playIntent = new Intent(MainActivity.this, PlayActivity.class);
-                playIntent.putExtra("parcel",songObject);
+                playIntent.putExtra("parcel", songObject);
                 startActivity(playIntent);
             }
         });
+    }
+
+    /**
+     * Check if album is already in ArrayList: same Albumname and same artist or same folder
+     *
+     * @param albumList ArrayList<album> with all already found albums
+     * @param newAlbum  String of albumname which should be checked for
+     * @return album is in ArrayList
+     */
+    public int containsAlbum(ArrayList<Album> albumList, String newAlbum, String filepath, String artist) {
+        for (Album currentAlbum : albumList) {
+            if (currentAlbum.getAlbum().equals(newAlbum)) {
+                int indexFolderName = filepath.lastIndexOf("/");
+                if (currentAlbum.getFilePath().startsWith((String) filepath.subSequence(0, indexFolderName))
+                        || currentAlbum.getArtist().equals(artist)) {
+                    return albumList.indexOf(currentAlbum);
+                }
+            }
+        }
+        return -1;
     }
 }
