@@ -43,6 +43,10 @@ public class Album implements Parcelable {
         return mAlbum;
     }
 
+    public void setArtist(String artist) {
+        this.mArtist = artist;
+    }
+
     public String getFilePath() {
         return mFirstSongPath;
     }

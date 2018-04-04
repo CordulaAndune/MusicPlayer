@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.AdapterView;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 import de.cordulagloge.android.musicplayer.databinding.ActivityMainBinding;
 
@@ -47,7 +48,16 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+
         AlbumAdapter albumAdapter = new AlbumAdapter(this, albumList);
+        // sort Album
+        albumAdapter.sort(new Comparator<Album>() {
+            @Override
+            public int compare(Album album, Album album2) {
+                return album.getAlbum().compareTo(album2.getAlbum());
+            }
+        });
+
         mainBinding.musicList.setAdapter(albumAdapter);
         mainBinding.musicList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -75,6 +85,9 @@ public class MainActivity extends AppCompatActivity {
                 int indexFolderName = filepath.lastIndexOf("/");
                 if (currentAlbum.getFilePath().startsWith((String) filepath.subSequence(0, indexFolderName))
                         || currentAlbum.getArtist().equals(artist)) {
+                    if (!currentAlbum.getArtist().equals(artist)) {
+                        currentAlbum.setArtist("Various Artists");
+                    }
                     return albumList.indexOf(currentAlbum);
                 }
             }
