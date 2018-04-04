@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Get Cursor
         Cursor cursor = SongManager.populateQueries(this);
-        ArrayList<Album> albumList = new ArrayList<>();
+        final ArrayList<Album> albumList = new ArrayList<>();
         if (cursor != null) {
             cursor.moveToFirst();
             while (cursor.moveToNext()) {
@@ -63,7 +63,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 MyParcelable songObject = new MyParcelable();
-                songObject.setArrList(songList.subList(i, i + 1));
+                ArrayList<Integer> indexSongsArray = albumList.get(i).getSongIndices();
+                ArrayList<Song> albumSongs = new ArrayList<>();
+                for (Integer songIndex: indexSongsArray) {
+                    albumSongs.add(songList.get(songIndex));
+                }
+                songObject.setArrList(albumSongs);
                 songObject.setMyInt(i);
                 Intent playIntent = new Intent(MainActivity.this, PlayActivity.class);
                 playIntent.putExtra("parcel", songObject);
