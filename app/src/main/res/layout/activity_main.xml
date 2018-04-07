@@ -12,6 +12,7 @@
         <!--TODO: add random album and search-->
 
         <LinearLayout
+            android:padding="@dimen/top_padding"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorPrimaryDark">
@@ -24,7 +25,7 @@
                 android:textColorHint="@color/colorAccentLight"
                 android:hint="@string/search_album"
                 android:textColor="@color/colorAccentLight"
-                android:inputType="textCapWords"
+                android:inputType="text"
                 android:maxLines="1"
                 android:imeOptions="actionSearch"/>
 
@@ -37,12 +38,26 @@
                 android:layout_margin="@dimen/small_border"/>
         </LinearLayout>
 
+        <ViewSwitcher
+            android:id="@+id/album_switcher"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
         <ListView
             android:id="@+id/musicList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:divider="@color/colorPrimaryLight"
             android:dividerHeight="1dp"
-            android:paddingTop="@dimen/top_padding" />
+            android:paddingTop="@dimen/top_padding"
+            android:paddingBottom="@dimen/top_padding"/>
+
+            <TextView
+                android:id="@+id/noalbums_textview"
+                style="@style/Playing.Title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/outer_padding"
+                android:text="@string/no_album_found"/>
+        </ViewSwitcher>
     </LinearLayout>
 </layout>

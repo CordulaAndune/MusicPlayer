@@ -6,4 +6,5 @@
     <string name="rewind">Rewind</string>
     <string name="album_art">Album Art</string>
     <string name="search_album">Search album....</string>
+    <string name="no_album_found">No album found.</string>
 </resources>

@@ -1,14 +1,20 @@
 package de.cordulagloge.android.musicplayer;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.databinding.DataBindingUtil;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -17,20 +23,24 @@ import de.cordulagloge.android.musicplayer.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
 
+    ActivityMainBinding mainBinding;
+    ArrayList<Album> albumList;
+    ArrayList<Song> songList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1001);
         }
 
-        ActivityMainBinding mainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-
-        final ArrayList<Song> songList = new ArrayList<>();
+        songList = new ArrayList<>();
 
         // Get Cursor
         Cursor cursor = SongManager.populateQueries(this);
-        final ArrayList<Album> albumList = new ArrayList<>();
+        albumList = new ArrayList<>();
         if (cursor != null) {
             cursor.moveToFirst();
             while (cursor.moveToNext()) {
@@ -48,32 +58,51 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        AlbumAdapter albumAdapter = new AlbumAdapter(this, albumList);
-        // sort Album
-        albumAdapter.sort(new Comparator<Album>() {
-            @Override
-            public int compare(Album album, Album album2) {
-                return album.getAlbum().compareTo(album2.getAlbum());
-            }
-        });
+        if (albumList.size() == 0) {
+            mainBinding.albumSwitcher.showNext();
+        }
+        else {
 
-        mainBinding.musicList.setAdapter(albumAdapter);
-        mainBinding.musicList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                MyParcelable songObject = new MyParcelable();
-                ArrayList<Integer> indexSongsArray = albumList.get(i).getSongIndices();
-                ArrayList<Song> albumSongs = new ArrayList<>();
-                for (Integer songIndex: indexSongsArray) {
-                    albumSongs.add(songList.get(songIndex));
+            AlbumAdapter albumAdapter = new AlbumAdapter(this, albumList);
+            // sort Album
+            albumAdapter.sort(new Comparator<Album>() {
+                @Override
+                public int compare(Album album, Album album2) {
+                    return album.getAlbum().compareTo(album2.getAlbum());
                 }
-                songObject.setArrList(albumSongs);
-                songObject.setMyInt(i);
-                Intent playIntent = new Intent(MainActivity.this, PlayActivity.class);
-                playIntent.putExtra("parcel", songObject);
-                startActivity(playIntent);
+            });
+
+            mainBinding.musicList.setAdapter(albumAdapter);
+            mainBinding.musicList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    ArrayList<Integer> indexSongsArray = albumList.get(i).getSongIndices();
+                    startAlbumActivity(indexSongsArray);
+                }
+            });
+        }
+        mainBinding.searchAlbum.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+
+            @Override
+            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    searchForAlbum();
+                }
+                return false;
             }
         });
+    }
+
+    public void startAlbumActivity(ArrayList<Integer> indexSongsArray) {
+        MyParcelable songObject = new MyParcelable();
+        ArrayList<Song> albumSongs = new ArrayList<>();
+        for (Integer songIndex : indexSongsArray) {
+            albumSongs.add(songList.get(songIndex));
+        }
+        songObject.setArrList(albumSongs);
+        Intent playIntent = new Intent(MainActivity.this, PlayActivity.class);
+        playIntent.putExtra("parcel", songObject);
+        startActivity(playIntent);
     }
 
     /**
@@ -97,5 +126,40 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         return -1;
+    }
+
+    /**
+     * Set search for albums and display found albums / go to ablum activity if only one is found
+     */
+    public void searchForAlbum() {
+        mainBinding.searchAlbum.clearFocus();
+        InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (inputManager != null) {
+            inputManager.hideSoftInputFromWindow(mainBinding.searchAlbum.getWindowToken(), 0);
+        }
+        String inputText = mainBinding.searchAlbum.getText().toString().toLowerCase();
+        final ArrayList<Album> foundAlbums = new ArrayList<>();
+        for (Album currentAlbum : albumList) {
+            String albumName = currentAlbum.getAlbum().toLowerCase();
+            if (albumName.contains(inputText)) {
+                foundAlbums.add(currentAlbum);
+            }
+        }
+        if (foundAlbums.size() == 1) {
+            ArrayList<Integer> indexSongsArray = foundAlbums.get(0).getSongIndices();
+            startAlbumActivity(indexSongsArray);
+        } else if (foundAlbums.size() == 0) {
+            mainBinding.albumSwitcher.showNext();
+        } else {
+            AlbumAdapter foundAlbumAdapter = new AlbumAdapter(this, foundAlbums);
+            mainBinding.musicList.setAdapter(foundAlbumAdapter);
+            mainBinding.musicList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    ArrayList<Integer> indexSongsArray = foundAlbums.get(i).getSongIndices();
+                    startAlbumActivity(indexSongsArray);
+                }
+            });
+        }
     }
 }
