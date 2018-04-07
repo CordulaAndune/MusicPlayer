@@ -21,8 +21,8 @@ public class SongManager {
                 MediaStore.Audio.Media.ARTIST,
                 MediaStore.Audio.Media.ALBUM,
                 MediaStore.Audio.Media.DURATION,
-                MediaStore.Audio.Media.DATA,    // filepath of the audio file
-                MediaStore.Audio.Media._ID     // context id/ uri id of the file
+                MediaStore.Audio.Media.DATA,
+                MediaStore.Audio.Media.TRACK // context id/ uri id of the file
         };
 
         Cursor cursor = context.getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,

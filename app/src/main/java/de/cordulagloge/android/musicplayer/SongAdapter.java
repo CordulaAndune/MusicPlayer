@@ -30,6 +30,9 @@ public class SongAdapter extends ArrayAdapter<Song> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.song_list_item, parent, false);
         }
 
+        TextView numberText = convertView.findViewById(R.id.number_textview);
+        numberText.setText(currentSong.getId() + ".");
+
         TextView titleText = convertView.findViewById(R.id.song_textview);
         titleText.setText(currentSong.getTitle());
 

@@ -7,10 +7,20 @@
     android:padding="@dimen/outer_padding">
 
     <TextView
+        android:id="@+id/number_textview"
+        style="@style/GridTextStyle.Item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/small_border"
+        android:ellipsize="marquee"
+        tools:text="1." />
+
+    <TextView
         android:id="@+id/song_textview"
         style="@style/GridTextStyle.Item"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/number_textview"
         android:ellipsize="marquee"
         tools:text="Title" />
 
