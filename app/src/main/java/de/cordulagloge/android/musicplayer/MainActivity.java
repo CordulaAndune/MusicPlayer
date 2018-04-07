@@ -10,7 +10,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -18,6 +20,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Random;
 
 import de.cordulagloge.android.musicplayer.databinding.ActivityMainBinding;
 
@@ -36,7 +39,8 @@ public class MainActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1001);
         }
-switcherIndex = 0;
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+        switcherIndex = 0;
         songList = new ArrayList<>();
 
         // Get Cursor
@@ -62,9 +66,7 @@ switcherIndex = 0;
         if (albumList.size() == 0) {
             mainBinding.albumSwitcher.showNext();
             switcherIndex = 1;
-        }
-        else {
-
+        } else {
             AlbumAdapter albumAdapter = new AlbumAdapter(this, albumList);
             // sort Album
             albumAdapter.sort(new Comparator<Album>() {
@@ -73,13 +75,21 @@ switcherIndex = 0;
                     return album.getAlbum().compareTo(album2.getAlbum());
                 }
             });
-
+            LayoutInflater headerInflater = getLayoutInflater();
+            View headerView = headerInflater.inflate(R.layout.listview_header, mainBinding.musicList, false);
+            mainBinding.musicList.addHeaderView(headerView);
             mainBinding.musicList.setAdapter(albumAdapter);
             mainBinding.musicList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    ArrayList<Integer> indexSongsArray = albumList.get(i).getSongIndices();
-                    startAlbumActivity(indexSongsArray, albumList.get(i));
+                    if (i == 0){
+                        Random rand = new Random();
+                        i = rand.nextInt(albumList.size()-1) + 1;
+                    }
+
+                        ArrayList<Integer> indexSongsArray = albumList.get(i).getSongIndices();
+                        startAlbumActivity(indexSongsArray, albumList.get(i));
+
                 }
             });
         }
@@ -104,6 +114,7 @@ switcherIndex = 0;
 
     /**
      * start album activity and send songs of selected album
+     *
      * @param indexSongsArray song indices of album
      */
     public void startAlbumActivity(ArrayList<Integer> indexSongsArray, Album selectedAlbum) {
@@ -175,7 +186,7 @@ switcherIndex = 0;
                     startAlbumActivity(indexSongsArray, foundAlbums.get(i));
                 }
             });
-            if (switcherIndex == 1){
+            if (switcherIndex == 1) {
                 mainBinding.albumSwitcher.showPrevious();
                 switcherIndex = 0;
             }

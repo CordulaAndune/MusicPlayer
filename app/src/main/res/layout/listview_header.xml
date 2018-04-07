@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:paddingBottom="@dimen/top_padding"
+    android:paddingTop="@dimen/top_padding"
+    android:paddingLeft="@dimen/outer_padding"
+    android:paddingRight="@dimen/outer_padding">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/Playing.Title"
+        android:text="Play random album"/>
+
+</LinearLayout>
