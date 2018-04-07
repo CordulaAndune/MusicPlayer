@@ -19,7 +19,7 @@ public class PlayActivity extends AppCompatActivity {
     MediaPlayer songPlayer;
     ActivityPlayBinding playBinding;
     List<Song> songArrayList;
-    int songNumber, numberOfSongs;
+    int songNumber, numberOfSongs, startSong;
     Handler myHandler = new Handler();
 
     final Runnable updateSong = new Runnable() {
@@ -37,15 +37,15 @@ public class PlayActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         playBinding = DataBindingUtil.setContentView(this, R.layout.activity_play);
 
-        songNumber = 0;
-
         // get intent extra from last activity with song information
         Bundle b = getIntent().getExtras();
         MyParcelable songObject = null;
         if (b != null) {
-            songObject = b.getParcelable("parcel");
+            songObject = b.getParcelable("songObject");
         }
         songArrayList = songObject.getArrList();
+        startSong = songObject.getMyInt();
+        songNumber = startSong;
         Song currentSong = songArrayList.get(songNumber);
         numberOfSongs = songArrayList.size();
 
@@ -105,9 +105,11 @@ public class PlayActivity extends AppCompatActivity {
                     songPlayer.seekTo(seekbarPosition);
                 }
             }
+
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
             }
+
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
             }
@@ -189,6 +191,7 @@ public class PlayActivity extends AppCompatActivity {
 
     /**
      * Set Title, album, album art and song duration to be displayed
+     *
      * @param currentSong song object of the current / playing song
      */
     public void setDescription(Song currentSong) {
@@ -200,7 +203,8 @@ public class PlayActivity extends AppCompatActivity {
 
     /**
      * Convert Milliseconds (long) to timeformat hh:mm:ss
-     * @param time  long millisec
+     *
+     * @param time long millisec
      * @return converted time in format hh:mm:ss
      */
     public String convertMilliSecToSec(long time) {

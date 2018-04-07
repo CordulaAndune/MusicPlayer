@@ -1,8 +1,11 @@
 package de.cordulagloge.android.musicplayer;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.AdapterView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +13,8 @@ import java.util.List;
 import de.cordulagloge.android.musicplayer.databinding.ActivityAlbumBinding;
 
 public class AlbumActivity extends AppCompatActivity {
+
+    ArrayList<Song> songArrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,7 +26,7 @@ public class AlbumActivity extends AppCompatActivity {
         if (b != null) {
             songObject = b.getParcelable("songObject");
         }
-        ArrayList<Song> songArrayList = (ArrayList<Song>)songObject.getArrList();
+        songArrayList = (ArrayList<Song>)songObject.getArrList();
         Album currentAlbum = songObject.getAlbum();
 
         albumBinding.albumImage.setImageBitmap(currentAlbum.getAlbumImage(this));
@@ -30,5 +35,21 @@ public class AlbumActivity extends AppCompatActivity {
 
         SongAdapter songAdapter = new SongAdapter(this, songArrayList);
         albumBinding.songList.setAdapter(songAdapter);
+        albumBinding.songList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                startPlayActivity(i);
+            }
+        });
+    }
+
+    private void startPlayActivity(int songIndex){
+        MyParcelable songObject = new MyParcelable();
+        songObject.setArrList(songArrayList);
+        songObject.setMyInt(songIndex);
+        Intent playIntent = new Intent(this, PlayActivity.class);
+        playIntent.putExtra("songObject", songObject);
+        startActivity(playIntent);
+
     }
 }
