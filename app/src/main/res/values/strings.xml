@@ -5,4 +5,5 @@
     <string name="play">Play</string>
     <string name="rewind">Rewind</string>
     <string name="album_art">Album Art</string>
+    <string name="search_album">Search album....</string>
 </resources>

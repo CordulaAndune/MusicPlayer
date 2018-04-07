@@ -1,16 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
+
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorAccentLight"
+        android:orientation="vertical"
         tools:context="de.cordulagloge.android.musicplayer.MainActivity">
+
+        <!--TODO: add random album and search-->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimaryDark">
+
+            <EditText
+                android:id="@+id/search_album"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColorHint="@color/colorAccentLight"
+                android:hint="@string/search_album"
+                android:textColor="@color/colorAccentLight"
+                android:inputType="textCapWords"
+                android:maxLines="1"
+                android:imeOptions="actionSearch"/>
+
+            <ImageButton
+                android:id="@+id/search_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_search_black_24dp"
+                android:background="@android:color/transparent"
+                android:layout_margin="@dimen/small_border"/>
+        </LinearLayout>
 
         <ListView
             android:id="@+id/musicList"
-            android:paddingTop="@dimen/top_padding"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:divider="@color/colorPrimaryLight"
+            android:dividerHeight="1dp"
+            android:paddingTop="@dimen/top_padding" />
     </LinearLayout>
 </layout>

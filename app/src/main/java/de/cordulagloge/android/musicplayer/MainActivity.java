@@ -48,7 +48,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-
         AlbumAdapter albumAdapter = new AlbumAdapter(this, albumList);
         // sort Album
         albumAdapter.sort(new Comparator<Album>() {
