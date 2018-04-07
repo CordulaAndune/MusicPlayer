@@ -16,6 +16,7 @@ public class MyParcelable implements Parcelable {
     private List<Album> albumList = new ArrayList<>();
     private int myInt = 0;
     private String str = null;
+    private Album album;
 
     public String getStr(String str) {
         return str;
@@ -24,6 +25,10 @@ public class MyParcelable implements Parcelable {
     public void setStr(String str) {
         this.str = str;
     }
+
+    public void setAlbum(Album album){this.album = album;}
+
+    public Album getAlbum(){return album;}
 
     public List<Song> getArrList() {
         return songList;
@@ -57,6 +62,7 @@ public class MyParcelable implements Parcelable {
     public MyParcelable(Parcel in) {
         myInt = in.readInt();
         str = in.readString();
+        album = in.readParcelable(getClass().getClassLoader());
         in.readTypedList(songList, Song.CREATOR);
         in.readTypedList(albumList, Album.CREATOR);
     }
@@ -70,6 +76,7 @@ public class MyParcelable implements Parcelable {
     public void writeToParcel(Parcel outParcel, int flags) {
         outParcel.writeInt(myInt);
         outParcel.writeString(str);
+        outParcel.writeParcelable(album,0);
         outParcel.writeTypedList(songList);
         outParcel.writeTypedList(albumList);
     }

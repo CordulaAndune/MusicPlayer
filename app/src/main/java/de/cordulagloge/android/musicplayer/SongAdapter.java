@@ -30,9 +30,6 @@ public class SongAdapter extends ArrayAdapter<Song> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.music_list_item, parent, false);
         }
 
-        ImageView albumImage = convertView.findViewById(R.id.album_image);
-        albumImage.setImageBitmap(currentSong.getAlbumImage(getContext()));
-
         TextView titleText = convertView.findViewById(R.id.title_textview);
         titleText.setText(currentSong.getTitle());
 

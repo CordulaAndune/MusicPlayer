@@ -37,10 +37,6 @@ public class PlayActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         playBinding = DataBindingUtil.setContentView(this, R.layout.activity_play);
 
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().hide();
-        }
-
         songNumber = 0;
 
         // get intent extra from last activity with song information

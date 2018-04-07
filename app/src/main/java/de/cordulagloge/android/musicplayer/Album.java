@@ -26,11 +26,11 @@ public class Album implements Parcelable {
     }
 
     public Album(Parcel read) {
-        String[] allSongData = new String[6];
+        String[] allSongData = new String[3];
         read.readStringArray(allSongData);
-        this.mAlbum = allSongData[1];
-        this.mArtist = allSongData[2];
-        this.mFirstSongPath = allSongData[3];
+        this.mAlbum = allSongData[0];
+        this.mArtist = allSongData[1];
+        this.mFirstSongPath = allSongData[2];
         this.mDuration = read.readLong();
         this.mIndexOfTitles = read.readArrayList(Integer.class.getClassLoader());
     }
