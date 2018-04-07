@@ -8,6 +8,8 @@ import android.media.MediaMetadataRetriever;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * Song object with title, album, artist and filepath
  * <p>
@@ -17,13 +19,19 @@ import android.os.Parcelable;
  */
 
 public class Song implements Parcelable {
-    private String mTitle, mAlbum, mArtist, mFilePath, mDuration, mId;
+    private String mTitle, mAlbum, mArtist, mFilePath, mId, mDuration;
 
     public Song(Cursor cursor, Context context) {
         this.mTitle = cursor.getString(0);
         this.mArtist = cursor.getString(1);
         this.mAlbum = cursor.getString(2);
-        this.mDuration = cursor.getString(3);
+        long longDuration = Long.parseLong(cursor.getString(3));
+        mDuration = String.format("%02d:%02d:%02d",
+                TimeUnit.MILLISECONDS.toHours(longDuration),
+                TimeUnit.MILLISECONDS.toMinutes(longDuration) -
+                        TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toHours(longDuration)),
+                TimeUnit.MILLISECONDS.toSeconds(longDuration) -
+                        TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(longDuration)));
         this.mFilePath = cursor.getString(4);
         this.mId = cursor.getString(5);
     }

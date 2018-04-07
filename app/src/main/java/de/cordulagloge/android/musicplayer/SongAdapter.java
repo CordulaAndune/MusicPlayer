@@ -27,14 +27,14 @@ public class SongAdapter extends ArrayAdapter<Song> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         Song currentSong = getItem(position);
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.music_list_item, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.song_list_item, parent, false);
         }
 
-        TextView titleText = convertView.findViewById(R.id.title_textview);
+        TextView titleText = convertView.findViewById(R.id.song_textview);
         titleText.setText(currentSong.getTitle());
 
-        TextView albumText = convertView.findViewById(R.id.album_textview);
-        albumText.setText(currentSong.getArtist() + " - " + currentSong.getAlbum());
+        TextView albumText = convertView.findViewById(R.id.duration_textview);
+        albumText.setText(currentSong.getDuration());
 
         return convertView;
     }
