@@ -35,7 +35,7 @@ public class Album implements Parcelable {
         this.mIndexOfTitles = read.readArrayList(Integer.class.getClassLoader());
     }
 
-    public void addSong(int index){
+    public void addSong(int index) {
         this.mIndexOfTitles.add(index);
     }
 
@@ -55,15 +55,11 @@ public class Album implements Parcelable {
         return mArtist;
     }
 
-    public long getDuration() {
-        return mDuration;
-    }
-
-    public ArrayList<Integer> getSongIndices(){
+    public ArrayList<Integer> getSongIndices() {
         return this.mIndexOfTitles;
     }
 
-    public Bitmap getAlbumImage(Context context){
+    public Bitmap getAlbumImage(Context context) {
         MediaMetadataRetriever metaDataRetriever = new MediaMetadataRetriever();
         try {
             metaDataRetriever.setDataSource(mFirstSongPath);

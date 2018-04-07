@@ -12,19 +12,11 @@ import java.util.List;
 
 public class MyParcelable implements Parcelable {
 
-    private List<Song> songList = new ArrayList<Song>();
+    private List<Song> songList = new ArrayList<>();
     private List<Album> albumList = new ArrayList<>();
     private int myInt = 0;
     private String str = null;
     private Album album;
-
-    public String getStr(String str) {
-        return str;
-    }
-
-    public void setStr(String str) {
-        this.str = str;
-    }
 
     public void setAlbum(Album album){this.album = album;}
 
@@ -55,11 +47,11 @@ public class MyParcelable implements Parcelable {
     }
 
     MyParcelable() {
-        songList = new ArrayList<Song>();
-        albumList = new ArrayList<Album>();
+        songList = new ArrayList<>();
+        albumList = new ArrayList<>();
     }
 
-    public MyParcelable(Parcel in) {
+    private MyParcelable(Parcel in) {
         myInt = in.readInt();
         str = in.readString();
         album = in.readParcelable(getClass().getClassLoader());

@@ -22,17 +22,13 @@ public class SongManager {
                 MediaStore.Audio.Media.ALBUM,
                 MediaStore.Audio.Media.DURATION,
                 MediaStore.Audio.Media.DATA,
-                MediaStore.Audio.Media.TRACK // context id/ uri id of the file
+                MediaStore.Audio.Media.TRACK
         };
 
-        Cursor cursor = context.getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+        return context.getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
                 projection,
                 selection,
                 null,
                 MediaStore.Audio.Media.TITLE);
-
-        // the last parameter sorts the data alphanumerically
-
-        return cursor;
     }
 }

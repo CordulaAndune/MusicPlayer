@@ -8,7 +8,6 @@ import android.databinding.DataBindingUtil;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,7 +33,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         mainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1001);
@@ -62,7 +60,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
-
         if (albumList.size() == 0) {
             mainBinding.albumSwitcher.showNext();
             switcherIndex = 1;
@@ -82,13 +79,13 @@ public class MainActivity extends AppCompatActivity {
             mainBinding.musicList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    if (i == 0){
+                    if (i == 0) {
                         Random rand = new Random();
-                        i = rand.nextInt(albumList.size()-1) + 1;
+                        i = rand.nextInt(albumList.size() - 1) + 1;
                     }
 
-                        ArrayList<Integer> indexSongsArray = albumList.get(i).getSongIndices();
-                        startAlbumActivity(indexSongsArray, albumList.get(i));
+                    ArrayList<Integer> indexSongsArray = albumList.get(i-1).getSongIndices();
+                    startAlbumActivity(indexSongsArray, albumList.get(i-1));
 
                 }
             });
@@ -103,7 +100,6 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
-
         mainBinding.searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

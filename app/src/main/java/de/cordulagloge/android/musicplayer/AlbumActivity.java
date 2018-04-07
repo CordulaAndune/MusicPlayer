@@ -9,7 +9,6 @@ import android.widget.AdapterView;
 
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.List;
 
 import de.cordulagloge.android.musicplayer.databinding.ActivityAlbumBinding;
 
@@ -22,18 +21,18 @@ public class AlbumActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_album);
         ActivityAlbumBinding albumBinding = DataBindingUtil.setContentView(this, R.layout.activity_album);
-        Bundle b = getIntent().getExtras();
+        Bundle bundle = getIntent().getExtras();
         MyParcelable songObject = null;
-        if (b != null) {
-            songObject = b.getParcelable("songObject");
+        if (bundle != null) {
+            songObject = bundle.getParcelable("songObject");
         }
         songArrayList = (ArrayList<Song>) songObject.getArrList();
         Album currentAlbum = songObject.getAlbum();
-
+        // Set album header
         albumBinding.albumImage.setImageBitmap(currentAlbum.getAlbumImage(this));
         albumBinding.albumTextview.setText(currentAlbum.getAlbum());
         albumBinding.artistTextview.setText(currentAlbum.getArtist());
-
+        // set songlist and sort by track number
         SongAdapter songAdapter = new SongAdapter(this, songArrayList);
         songAdapter.sort(new Comparator<Song>() {
             @Override
@@ -41,7 +40,6 @@ public class AlbumActivity extends AppCompatActivity {
                 return song.getId().compareTo(song2.getId());
             }
         });
-
         albumBinding.songList.setAdapter(songAdapter);
         albumBinding.songList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -51,6 +49,11 @@ public class AlbumActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Start PlayActivity and send song Information
+     *
+     * @param songIndex index of selected song -> will be played first
+     */
     private void startPlayActivity(int songIndex) {
         MyParcelable songObject = new MyParcelable();
         songObject.setArrList(songArrayList);
@@ -58,6 +61,5 @@ public class AlbumActivity extends AppCompatActivity {
         Intent playIntent = new Intent(this, PlayActivity.class);
         playIntent.putExtra("songObject", songObject);
         startActivity(playIntent);
-
     }
 }

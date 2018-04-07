@@ -36,7 +36,7 @@ public class Song implements Parcelable {
         this.mId = cursor.getString(5);
     }
 
-    public Song(Parcel read) {
+    private Song(Parcel read) {
         String[] allSongData = new String[6];
         read.readStringArray(allSongData);
         this.mTitle = allSongData[0];

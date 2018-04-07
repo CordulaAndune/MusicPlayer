@@ -36,7 +36,6 @@ public class PlayActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         playBinding = DataBindingUtil.setContentView(this, R.layout.activity_play);
-
         // get intent extra from last activity with song information
         Bundle b = getIntent().getExtras();
         MyParcelable songObject = null;
@@ -48,12 +47,10 @@ public class PlayActivity extends AppCompatActivity {
         songNumber = startSong;
         Song currentSong = songArrayList.get(songNumber);
         numberOfSongs = songArrayList.size();
-
         // Initialize mediaPlayer
         songPlayer = new MediaPlayer();
         setMediaPlayer(currentSong);
         setDescription(currentSong);
-
         // set onclicklistener for playButton
         playBinding.playButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,14 +67,12 @@ public class PlayActivity extends AppCompatActivity {
                 }
             }
         });
-
         songPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mediaPlayer) {
                 setNextSong(true);
             }
         });
-
         // set rewind and forward button - disable if only one song is in songArraylist
         if (numberOfSongs < 2) {
             playBinding.forwardButton.setEnabled(false);
@@ -96,7 +91,6 @@ public class PlayActivity extends AppCompatActivity {
                 }
             });
         }
-
         // set position in song if seekbar is changed
         playBinding.seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
