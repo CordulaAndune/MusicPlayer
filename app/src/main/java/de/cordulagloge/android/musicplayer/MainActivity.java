@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     ActivityMainBinding mainBinding;
     ArrayList<Album> albumList;
     ArrayList<Song> songList;
+    int switcherIndex;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1001);
         }
-
+switcherIndex = 0;
         songList = new ArrayList<>();
 
         // Get Cursor
@@ -60,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (albumList.size() == 0) {
             mainBinding.albumSwitcher.showNext();
+            switcherIndex = 1;
         }
         else {
 
@@ -77,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                     ArrayList<Integer> indexSongsArray = albumList.get(i).getSongIndices();
-                    startAlbumActivity(indexSongsArray);
+                    startAlbumActivity(indexSongsArray, albumList.get(i));
                 }
             });
         }
@@ -91,18 +93,30 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+        mainBinding.searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                searchForAlbum();
+            }
+        });
     }
 
-    public void startAlbumActivity(ArrayList<Integer> indexSongsArray) {
+    /**
+     * start album activity and send songs of selected album
+     * @param indexSongsArray song indices of album
+     */
+    public void startAlbumActivity(ArrayList<Integer> indexSongsArray, Album selectedAlbum) {
         MyParcelable songObject = new MyParcelable();
         ArrayList<Song> albumSongs = new ArrayList<>();
         for (Integer songIndex : indexSongsArray) {
             albumSongs.add(songList.get(songIndex));
         }
         songObject.setArrList(albumSongs);
-        Intent playIntent = new Intent(MainActivity.this, PlayActivity.class);
-        playIntent.putExtra("parcel", songObject);
-        startActivity(playIntent);
+        songObject.setAlbum(selectedAlbum);
+        Intent albumIntent = new Intent(MainActivity.this, AlbumActivity.class);
+        albumIntent.putExtra("songObject", songObject);
+        startActivity(albumIntent);
     }
 
     /**
@@ -147,9 +161,10 @@ public class MainActivity extends AppCompatActivity {
         }
         if (foundAlbums.size() == 1) {
             ArrayList<Integer> indexSongsArray = foundAlbums.get(0).getSongIndices();
-            startAlbumActivity(indexSongsArray);
+            startAlbumActivity(indexSongsArray, foundAlbums.get(0));
         } else if (foundAlbums.size() == 0) {
             mainBinding.albumSwitcher.showNext();
+            switcherIndex = 1;
         } else {
             AlbumAdapter foundAlbumAdapter = new AlbumAdapter(this, foundAlbums);
             mainBinding.musicList.setAdapter(foundAlbumAdapter);
@@ -157,9 +172,13 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                     ArrayList<Integer> indexSongsArray = foundAlbums.get(i).getSongIndices();
-                    startAlbumActivity(indexSongsArray);
+                    startAlbumActivity(indexSongsArray, foundAlbums.get(i));
                 }
             });
+            if (switcherIndex == 1){
+                mainBinding.albumSwitcher.showPrevious();
+                switcherIndex = 0;
+            }
         }
     }
 }
