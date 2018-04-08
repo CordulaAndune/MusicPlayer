@@ -4,15 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-    android:paddingBottom="@dimen/top_padding"
-    android:paddingTop="@dimen/top_padding"
-    android:paddingLeft="@dimen/outer_padding"
-    android:paddingRight="@dimen/outer_padding">
+    android:padding="@dimen/outer_padding"
+    android:background="@color/colorAccentDark">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="@style/Playing.Title"
+        style="@style/ListTextStyle.Item"
         android:text="Play random album"/>
 
 </LinearLayout>
