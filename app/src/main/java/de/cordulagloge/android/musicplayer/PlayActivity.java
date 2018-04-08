@@ -108,6 +108,8 @@ public class PlayActivity extends AppCompatActivity {
             public void onStopTrackingTouch(SeekBar seekBar) {
             }
         });
+        // start music
+        playBinding.playButton.performClick();
     }
 
     @Override
