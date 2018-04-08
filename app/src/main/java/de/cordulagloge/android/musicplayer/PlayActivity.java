@@ -191,6 +191,7 @@ public class PlayActivity extends AppCompatActivity {
     public void setDescription(Song currentSong) {
         playBinding.titleTextview.setText(currentSong.getTitle());
         playBinding.albumTextview.setText(currentSong.getAlbum());
+        playBinding.artistTextview.setText(currentSong.getArtist());
         playBinding.albumImageview.setImageBitmap(currentSong.getAlbumImage(this));
         playBinding.songDuration.setText(convertMilliSecToSec(songPlayer.getDuration()));
     }

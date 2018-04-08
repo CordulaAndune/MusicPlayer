@@ -12,21 +12,23 @@
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
             android:contentDescription="@string/album_art"
+            android:background="@color/colorPrimaryDark"
             android:paddingBottom="6dp"
             android:scaleType="fitXY"
             tools:src="@drawable/default_album_image" />
 
         <SeekBar
             android:id="@+id/seekbar"
+            style="@android:style/Widget.ProgressBar.Horizontal"
             android:layout_width="match_parent"
-            android:layout_height="12dp"
+            android:layout_height="wrap_content"
             android:layout_alignBottom="@id/album_imageview"
-            android:paddingLeft="0dp"
-            android:paddingRight="0dp"
             android:paddingStart="0dp"
             android:paddingEnd="0dp"
             android:padding="0dp"
             android:thumb="@drawable/seekbar_thumb"
+            android:progressDrawable="@drawable/seekbar_progress"
+            tools:progress="50"
             />
 
         <TextView
@@ -58,6 +60,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/album_imageview"
+            android:paddingBottom="@dimen/top_padding"
+            android:background="@color/colorPrimaryDark"
             android:gravity="center">
 
             <ImageButton
@@ -107,5 +111,14 @@
             android:layout_below="@id/title_textview"
             android:layout_marginLeft="@dimen/top_padding"
             tools:text="Album" />
+
+        <TextView
+            android:id="@+id/artist_textview"
+            style="@style/Playing.Album"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/album_textview"
+            android:layout_marginLeft="@dimen/top_padding"
+            tools:text="Artist" />
     </RelativeLayout>
 </layout>

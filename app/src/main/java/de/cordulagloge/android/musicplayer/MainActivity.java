@@ -8,6 +8,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,16 +48,20 @@ public class MainActivity extends AppCompatActivity {
         if (cursor != null) {
             cursor.moveToFirst();
             while (cursor.moveToNext()) {
-                Song newSong = new Song(cursor, this);
-                String currentAlbum = newSong.getAlbum();
-                songList.add(newSong);
-                int indexOfAlbum = containsAlbum(albumList, currentAlbum, newSong.getFilePath(), newSong.getArtist());
-                if (0 <= indexOfAlbum) {
-                    albumList.get(indexOfAlbum).addSong(songList.indexOf(newSong));
-                } else {
-                    Album newAlbum = new Album(currentAlbum, newSong.getArtist(),
-                            songList.indexOf(newSong), newSong.getFilePath());
-                    albumList.add(newAlbum);
+                try {
+                    Song newSong = new Song(cursor, this);
+                    String currentAlbum = newSong.getAlbum();
+                    songList.add(newSong);
+                    int indexOfAlbum = containsAlbum(albumList, currentAlbum, newSong.getFilePath(), newSong.getArtist());
+                    if (0 <= indexOfAlbum) {
+                        albumList.get(indexOfAlbum).addSong(songList.indexOf(newSong));
+                    } else {
+                        Album newAlbum = new Album(currentAlbum, newSong.getArtist(),
+                                songList.indexOf(newSong), newSong.getFilePath());
+                        albumList.add(newAlbum);
+                    }
+                } catch (Exception e){
+                    Log.i("MainActivity","Song was null");
                 }
             }
         }

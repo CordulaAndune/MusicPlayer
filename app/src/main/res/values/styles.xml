@@ -47,23 +47,26 @@
 
     <style name="Playing">
         <!-- Style for the list items -->
-        <item name="android:layout_marginBottom">@dimen/top_padding</item>
         <item name="android:maxLines">1</item>
     </style>
 
     <style name="Playing.Title">
+
+        <item name="android:layout_marginBottom">@dimen/top_padding</item>
         <item name="android:textColor">@color/colorPrimaryDark</item>
         <item name="android:textSize">@dimen/title_textsize</item>
         <item name="android:textStyle">bold</item>
     </style>
 
     <style name="Playing.Album">
+        <item name="android:layout_marginBottom">@dimen/small_border</item>
         <item name="android:textColor">@color/colorPrimary</item>
         <item name="android:textSize">@dimen/list_textsize</item>
     </style>
 
     <style name="Playing.Duration">
-        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:layout_marginBottom">@dimen/small_border</item>
+        <item name="android:textColor">@color/colorPrimaryLight</item>
         <item name="android:textSize">@dimen/duration_textsize</item>
     </style>
 

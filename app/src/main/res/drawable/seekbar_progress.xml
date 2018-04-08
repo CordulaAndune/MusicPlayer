@@ -1,10 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@android:id/background"
-        android:drawable="@drawable/seekbar_background">
 
+    <item android:id="@android:id/background"
+        android:gravity="center_vertical|fill_horizontal">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/colorPrimaryDark"/>
+            <size android:height="@dimen/top_padding" />
+        </shape>
     </item>
-    <item android:id="@android:id/progress">
-        <clip android:drawable="@drawable/seekbar_fill" />
+
+    <item android:id="@android:id/progress"
+        android:gravity="center_vertical|fill_horizontal">
+        <clip>
+            <shape android:shape="rectangle">
+                <size android:height="@dimen/top_padding" />
+                <solid android:color="@color/colorPrimaryLight" />
+            </shape>
+        </clip>
     </item>
 </layer-list>
