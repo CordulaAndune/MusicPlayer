@@ -37,7 +37,7 @@ public class AlbumActivity extends AppCompatActivity {
         songAdapter.sort(new Comparator<Song>() {
             @Override
             public int compare(Song song, Song song2) {
-                return song.getId().compareTo(song2.getId());
+                return Integer.valueOf(song.getId()).compareTo(song2.getId());
             }
         });
         albumBinding.songList.setAdapter(songAdapter);

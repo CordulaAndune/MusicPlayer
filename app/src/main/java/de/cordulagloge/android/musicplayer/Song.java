@@ -20,7 +20,8 @@ import java.util.concurrent.TimeUnit;
  */
 
 public class Song implements Parcelable {
-    private String mTitle, mAlbum, mArtist, mFilePath, mId, mDuration;
+    private String mTitle, mAlbum, mArtist, mFilePath, mDuration;
+    private int mId;
 
     public Song(Cursor cursor, Context context) {
             this.mTitle = cursor.getString(0);
@@ -34,18 +35,18 @@ public class Song implements Parcelable {
                     TimeUnit.MILLISECONDS.toSeconds(longDuration) -
                             TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(longDuration)));
             this.mFilePath = cursor.getString(4);
-            this.mId = cursor.getString(5);
+            this.mId = Integer.parseInt(cursor.getString(5));
     }
 
     private Song(Parcel read) {
-        String[] allSongData = new String[6];
+        String[] allSongData = new String[5];
         read.readStringArray(allSongData);
         this.mTitle = allSongData[0];
         this.mAlbum = allSongData[1];
         this.mArtist = allSongData[2];
         this.mFilePath = allSongData[3];
         this.mDuration = allSongData[4];
-        this.mId = allSongData[5];
+        this.mId = read.readInt();
     }
 
     public String getTitle() {
@@ -68,7 +69,7 @@ public class Song implements Parcelable {
         return mFilePath;
     }
 
-    public String getId() {
+    public int getId() {
         return mId;
     }
 
@@ -103,6 +104,7 @@ public class Song implements Parcelable {
     @Override
     public void writeToParcel(Parcel arg0, int arg1) {
         arg0.writeStringArray(new String[]{this.mTitle,
-                this.mAlbum, this.mArtist, this.mFilePath, this.mDuration, this.mId});
+                this.mAlbum, this.mArtist, this.mFilePath, this.mDuration});
+        arg0.writeInt(this.mId);
     }
 }
