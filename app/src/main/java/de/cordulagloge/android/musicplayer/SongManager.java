@@ -13,9 +13,7 @@ import android.provider.MediaStore;
 
 public class SongManager {
     public static Cursor populateQueries(Context context) {
-
         String selection = MediaStore.Audio.Media.IS_MUSIC + " != 0";
-
         String[] projection = {
                 MediaStore.Audio.Media.TITLE,
                 MediaStore.Audio.Media.ARTIST,
@@ -24,7 +22,6 @@ public class SongManager {
                 MediaStore.Audio.Media.DATA,
                 MediaStore.Audio.Media.TRACK
         };
-
         return context.getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
                 projection,
                 selection,

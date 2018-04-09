@@ -41,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         switcherIndex = 0;
         songList = new ArrayList<>();
-
         // Get Cursor
         Cursor cursor = SongManager.populateQueries(this);
         albumList = new ArrayList<>();

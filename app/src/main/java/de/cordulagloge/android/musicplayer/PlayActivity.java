@@ -5,7 +5,6 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.SeekBar;
 
@@ -44,7 +43,6 @@ public class PlayActivity extends AppCompatActivity {
             songObject = savedInstanceState.getParcelable("songObject");
             playerPosition = savedInstanceState.getDouble("currentPlayerPosition");
             isPlaying = savedInstanceState.getBoolean("isPlaying");
-
         } else {
             // get intent extra from last activity with song information
             Bundle b = getIntent().getExtras();
@@ -115,10 +113,10 @@ public class PlayActivity extends AppCompatActivity {
             public void onStopTrackingTouch(SeekBar seekBar) {
             }
         });
+        playBinding.seekbar.setProgress((int) playerPosition);
+        songPlayer.seekTo((int) playerPosition);
         if (isPlaying) {
             // start music
-            playBinding.seekbar.setProgress((int) playerPosition);
-            songPlayer.seekTo((int) playerPosition);
             playBinding.playButton.performClick();
         }
     }
@@ -136,7 +134,6 @@ public class PlayActivity extends AppCompatActivity {
         songObject.setArrList(songArrayList);
         songObject.setMyInt(songNumber);
         savedInstanceState.putBoolean("isPlaying", songPlayer.isPlaying());
-        Log.i("SAvedInstance", String.valueOf(songPlayer.getCurrentPosition()));
         savedInstanceState.putDouble("currentPlayerPosition", songPlayer.getCurrentPosition());
         savedInstanceState.putParcelable("songObject", songObject);
     }

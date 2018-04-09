@@ -25,16 +25,12 @@ public class AlbumAdapter extends ArrayAdapter<Album> {
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.music_list_item, parent, false);
         }
-
         ImageView albumImage = convertView.findViewById(R.id.album_image);
         albumImage.setImageBitmap(currentAlbum.getAlbumImage(getContext()));
-
         TextView albumText = convertView.findViewById(R.id.title_textview);
         albumText.setText(currentAlbum.getAlbum());
-
         TextView artistText = convertView.findViewById(R.id.album_textview);
         artistText.setText(currentAlbum.getArtist());
-
         return convertView;
     }
 }

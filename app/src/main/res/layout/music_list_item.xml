@@ -11,9 +11,9 @@
         android:id="@+id/album_image"
         android:layout_width="@dimen/album_imageSize"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
         android:adjustViewBounds="true"
         android:contentDescription="@string/album_cover"
-        android:layout_gravity="center_vertical"
         tool:src="@drawable/default_album_image" />
 
     <LinearLayout

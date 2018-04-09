@@ -4,9 +4,9 @@
     <dimen name="top_padding">8dp</dimen>
     <dimen name="small_border">2dp</dimen>
     <dimen name="album_imageSize">70dp</dimen>
+    <dimen name="album_imageSize2">100dp</dimen>
 
     <dimen name="list_textsize">16sp</dimen>
     <dimen name="title_textsize">24sp</dimen>
     <dimen name="duration_textsize">12sp</dimen>
-    <dimen name="album_imageSize2">100dp</dimen>
 </resources>

@@ -21,6 +21,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="@dimen/top_padding"
                 android:adjustViewBounds="true"
+                android:contentDescription="@string/album_art"
                 tools:src="@drawable/default_album_image" />
 
             <LinearLayout

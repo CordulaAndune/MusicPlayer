@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -29,16 +28,12 @@ public class SongAdapter extends ArrayAdapter<Song> {
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.song_list_item, parent, false);
         }
-
         TextView numberText = convertView.findViewById(R.id.number_textview);
         numberText.setText(currentSong.getId() + ".");
-
         TextView titleText = convertView.findViewById(R.id.song_textview);
         titleText.setText(currentSong.getTitle());
-
         TextView albumText = convertView.findViewById(R.id.duration_textview);
         albumText.setText(currentSong.getDuration());
-
         return convertView;
     }
 }

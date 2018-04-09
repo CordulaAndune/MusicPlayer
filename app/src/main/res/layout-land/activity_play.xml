@@ -132,7 +132,5 @@
             android:layout_toRightOf="@id/song_played"
             android:gravity="end"
             tools:text="02:24:00" />
-
-
     </RelativeLayout>
 </layout>

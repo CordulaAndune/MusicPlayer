@@ -31,7 +31,6 @@
             android:thumb="@android:color/transparent"
             tools:progress="50" />
 
-
         <LinearLayout
             android:id="@+id/player_layout"
             android:layout_width="match_parent"

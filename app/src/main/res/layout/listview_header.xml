@@ -2,24 +2,23 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorAccentDark"
     android:orientation="horizontal"
-    android:paddingLeft="@dimen/outer_padding"
-    android:background="@color/colorAccentDark">
+    android:paddingLeft="@dimen/outer_padding">
 
     <ImageView
         android:id="@+id/album_image"
         android:layout_width="@dimen/album_imageSize"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
         android:adjustViewBounds="true"
         android:contentDescription="@string/album_cover"
-        android:layout_gravity="center_vertical"
         android:src="@drawable/ic_shuffle_black_24dp" />
 
     <TextView
+        style="@style/ListTextStyle.Item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="@style/ListTextStyle.Item"
         android:layout_gravity="center_vertical"
-        android:text="@string/play_random_album"/>
-
+        android:text="@string/play_random_album" />
 </LinearLayout>
