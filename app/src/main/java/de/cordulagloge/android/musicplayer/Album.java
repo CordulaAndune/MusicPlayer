@@ -15,7 +15,6 @@ public class Album implements Parcelable {
     private long mDuration;
     private ArrayList<Integer> mIndexOfTitles;
 
-
     public Album(String album, String artist, int indexFirstSong, String filePath) {
         this.mArtist = artist;
         this.mAlbum = album;

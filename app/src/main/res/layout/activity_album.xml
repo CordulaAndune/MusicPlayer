@@ -17,9 +17,8 @@
 
             <ImageView
                 android:id="@+id/album_image"
-                android:layout_width="100dp"
+                android:layout_width="@dimen/album_imageSize2"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
                 android:layout_marginRight="@dimen/top_padding"
                 android:adjustViewBounds="true"
                 tools:src="@drawable/default_album_image" />
@@ -46,7 +45,7 @@
                     <TextView
                         android:id="@+id/artist_textview"
                         style="@style/AlbumScreen.Album"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:textColor="@color/colorAccentLight"
@@ -60,7 +59,6 @@
                         tools:text="02:22:02" />
                 </LinearLayout>
             </LinearLayout>
-
         </LinearLayout>
 
         <ListView
