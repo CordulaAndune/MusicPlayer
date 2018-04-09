@@ -5,6 +5,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.SeekBar;
 
@@ -36,11 +37,20 @@ public class PlayActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         playBinding = DataBindingUtil.setContentView(this, R.layout.activity_play);
-        // get intent extra from last activity with song information
-        Bundle b = getIntent().getExtras();
         MyParcelable songObject = null;
-        if (b != null) {
-            songObject = b.getParcelable("songObject");
+        double playerPosition = 0;
+        boolean isPlaying = true;
+        if (savedInstanceState != null) {
+            songObject = savedInstanceState.getParcelable("songObject");
+            playerPosition = savedInstanceState.getDouble("currentPlayerPosition");
+            isPlaying = savedInstanceState.getBoolean("isPlaying");
+
+        } else {
+            // get intent extra from last activity with song information
+            Bundle b = getIntent().getExtras();
+            if (b != null) {
+                songObject = b.getParcelable("songObject");
+            }
         }
         songArrayList = songObject.getArrList();
         startSong = songObject.getMyInt();
@@ -61,9 +71,6 @@ public class PlayActivity extends AppCompatActivity {
                 } else {
                     songPlayer.start();
                     playBinding.playButton.setImageResource(R.drawable.ic_pause_black_24dp);
-                    double startTime = songPlayer.getCurrentPosition();
-                    playBinding.seekbar.setProgress((int) startTime);
-                    myHandler.postDelayed(updateSong, 100);
                 }
             }
         });
@@ -108,14 +115,30 @@ public class PlayActivity extends AppCompatActivity {
             public void onStopTrackingTouch(SeekBar seekBar) {
             }
         });
-        // start music
-        playBinding.playButton.performClick();
+        if (isPlaying) {
+            // start music
+            playBinding.seekbar.setProgress((int) playerPosition);
+            songPlayer.seekTo((int) playerPosition);
+            playBinding.playButton.performClick();
+        }
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         songPlayer.stop();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        MyParcelable songObject = new MyParcelable();
+        songObject.setArrList(songArrayList);
+        songObject.setMyInt(songNumber);
+        savedInstanceState.putBoolean("isPlaying", songPlayer.isPlaying());
+        Log.i("SAvedInstance", String.valueOf(songPlayer.getCurrentPosition()));
+        savedInstanceState.putDouble("currentPlayerPosition", songPlayer.getCurrentPosition());
+        savedInstanceState.putParcelable("songObject", songObject);
     }
 
     /**
@@ -175,6 +198,9 @@ public class PlayActivity extends AppCompatActivity {
             setDescription(currentSong);
             int maxPosition = songPlayer.getDuration();
             playBinding.seekbar.setMax(maxPosition);
+            double currentTime = songPlayer.getCurrentPosition();
+            playBinding.seekbar.setProgress((int) currentTime);
+            myHandler.postDelayed(updateSong, 100);
             String startTime = convertMilliSecToSec(songPlayer.getCurrentPosition());
             playBinding.songPlayed.setText(startTime);
         } catch (IOException e) {
