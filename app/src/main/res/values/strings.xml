@@ -7,4 +7,5 @@
     <string name="album_art">Album Art</string>
     <string name="search_album">Search album....</string>
     <string name="no_album_found">No album found.</string>
+    <string name="play_random_album">Play random album</string>
 </resources>

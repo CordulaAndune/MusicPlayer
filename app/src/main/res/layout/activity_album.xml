@@ -32,7 +32,7 @@
 
                 <TextView
                     android:id="@+id/album_textview"
-                    style="@style/Playing.Title"
+                    style="@style/AlbumScreen.Title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ellipsize="marquee"
@@ -45,7 +45,7 @@
 
                     <TextView
                         android:id="@+id/artist_textview"
-                        style="@style/Playing.Album"
+                        style="@style/AlbumScreen.Album"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -53,7 +53,7 @@
                         tools:text="Artist" />
 
                     <TextView
-                        style="@style/Playing.Album"
+                        style="@style/AlbumScreen.Album"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/colorAccentLight"

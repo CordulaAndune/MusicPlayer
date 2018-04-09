@@ -21,6 +21,6 @@
         android:layout_height="wrap_content"
         style="@style/ListTextStyle.Item"
         android:layout_gravity="center_vertical"
-        android:text="Play random album"/>
+        android:text="@string/play_random_album"/>
 
 </LinearLayout>
